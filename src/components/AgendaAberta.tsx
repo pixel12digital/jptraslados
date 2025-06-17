@@ -129,7 +129,7 @@ export default function AgendaAberta() {
                         ${!isSameMonth(day, currentDate) ? 'text-gray-400' : 'text-gray-800'}
                       `}
                       aria-label={format(day, "d 'de' MMMM", { locale: ptBR })}
-                      aria-pressed={isSelected}
+                      aria-pressed={!!isSelected}
                     >
                       {format(day, 'd')}
                     </button>
@@ -155,7 +155,7 @@ export default function AgendaAberta() {
                           ? 'bg-[#B8860B] text-white border-[#B8860B]' 
                           : 'border-gray-300 text-gray-700 hover:border-[#B8860B]'}
                       `}
-                      aria-pressed={selectedTime === time}
+                      aria-pressed={!!(selectedTime === time)}
                     >
                       {time}h
                     </button>
