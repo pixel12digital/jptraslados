@@ -125,7 +125,8 @@ export default function Home() {
             <span className="text-white">Contato</span>
           </h2>
           <p className="text-2xl text-gray-200 mb-12 font-light font-serif">
-            +55 11 96522-1349
+            +55 11 96522-1349<br />
+            <span className="block text-base text-gray-300 mt-2">contato@jptraslados.com.br</span>
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-6">
             <a 

@@ -132,6 +132,17 @@ export default function Footer() {
                   jptraslados1@gmail.com
                 </a>
               </li>
+              <li className="flex items-center space-x-3">
+                <svg className="w-5 h-5 text-[#B8860B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <a 
+                  href="mailto:contato@jptraslados.com.br"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  contato@jptraslados.com.br
+                </a>
+              </li>
             </ul>
           </div>
         </div>
