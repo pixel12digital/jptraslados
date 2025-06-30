@@ -34,21 +34,21 @@ export default function Home() {
       <AgendaAberta />
 
       {/* Sobre Nós - Seção com design moderno */}
-      <section className="py-24 bg-black relative overflow-hidden" id="sobre">
+      <section className="py-24 bg-[#191617] relative overflow-hidden" id="sobre">
         <div className="absolute inset-0 bg-[#111] opacity-50 pattern-grid"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold mb-8 text-center">
+            <h2 className="text-4xl md:text-6xl font-bold font-serif mb-8 text-center text-white">
               <span className="text-white">Sobre a </span>
               <span className="text-[#B8860B]">JP Traslados</span>
             </h2>
             <div className="space-y-8 text-lg md:text-xl">
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-gray-300 leading-relaxed font-serif">
                 Somos uma empresa especializada em oferecer serviços de 
                 <span className="text-[#B8860B] font-semibold"> traslados rápidos, seguros e confortáveis </span> 
                 na cidade de São Paulo.
               </p>
-              <p className="text-gray-400 leading-relaxed font-light">
+              <p className="text-gray-400 leading-relaxed font-light font-serif">
                 Com um compromisso inabalável com a 
                 <span className="text-white font-medium"> pontualidade, qualidade e atendimento personalizado</span>, 
                 trabalhamos para garantir que cada trajeto seja tranquilo e agradável para nossos clientes.
@@ -63,11 +63,11 @@ export default function Home() {
 
       {/* Diferenciais - Cards Dinâmicos */}
       <section className="py-16 bg-black" id="diferenciais">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-4xl md:text-5xl font-serif text-[#B8860B] mb-4 text-center font-bold">
+        <div className="container mx-auto px-4 max-w-5xl bg-[#191617] rounded-2xl py-5">
+          <h2 className="text-4xl md:text-5xl font-serif text-[#B8860B] mb-4 text-center font-bold text-white">
             Nossos Diferenciais
           </h2>
-          <p className="text-xl text-gray-400 text-center mb-12 font-light">
+          <p className="text-xl text-gray-200 text-center mb-12 font-light font-serif">
             Conheça o que nos torna únicos no mercado
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -91,13 +91,13 @@ export default function Home() {
       <DepoimentosCarousel />
 
       {/* Serviços Especializados */}
-      <section className="py-20 bg-[#111]" id="servicos">
+      <section className="py-20 bg-[#191617]" id="servicos">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold font-serif text-white mb-4">
               Serviços Especializados
             </h2>
-            <p className="text-xl text-gray-400 font-light">
+            <p className="text-xl text-gray-200 font-light font-serif">
               Soluções personalizadas para suas necessidades
             </p>
           </div>
@@ -118,13 +118,13 @@ export default function Home() {
       </section>
 
       {/* Contato - Seção Final */}
-      <section className="py-20 bg-black" id="contact">
+      <section className="py-20 bg-[#191617]" id="contact">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">
+          <h2 className="text-4xl md:text-6xl font-bold font-serif mb-8 text-center text-white">
             <span className="text-[#B8860B]">Entre em </span>
             <span className="text-white">Contato</span>
           </h2>
-          <p className="text-2xl text-gray-300 mb-12 font-light">
+          <p className="text-2xl text-gray-200 mb-12 font-light font-serif">
             +55 11 96522-1349
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-6">

@@ -19,15 +19,18 @@ export default function Navbar() {
     <nav className="fixed w-full z-50 bg-black backdrop-blur-none">
       <div className="container-custom">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="relative w-40 h-12">
-            <Image
-              src="/images/logo.png"
-              alt="JP Traslados"
-              fill
-              className="object-contain"
-            />
-          </Link>
+          {/* Logo e Frase */}
+          <div className="flex items-center gap-4">
+            <Link href="/" className="relative w-40 h-12">
+              <Image
+                src="/images/logo.png"
+                alt="JP Traslados"
+                fill
+                className="object-contain"
+              />
+            </Link>
+            <span className="hidden md:inline-block font-serif text-xl text-white font-semibold leading-tight">Transporte Executivo</span>
+          </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">

@@ -54,7 +54,7 @@ export default function DepoimentosCarousel() {
 
   return (
     <section className="w-full py-16 bg-black flex flex-col items-center">
-      <h2 className="text-3xl md:text-4xl font-bold text-[#B8860B] mb-10 text-center">Depoimentos de Clientes</h2>
+      <h2 className="text-3xl md:text-4xl font-bold font-serif text-[#B8860B] mb-10 text-center">Depoimentos de Clientes</h2>
       <div className="relative w-full max-w-xl px-4">
         {/* Card */}
         <div

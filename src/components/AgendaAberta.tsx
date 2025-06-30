@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -56,6 +56,20 @@ export default function AgendaAberta() {
     }
   };
 
+  // Atualiza automaticamente o mês exibido quando o mês do sistema muda
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      if (
+        now.getFullYear() !== currentDate.getFullYear() ||
+        now.getMonth() !== currentDate.getMonth()
+      ) {
+        setCurrentDate(new Date());
+      }
+    }, 60 * 1000); // verifica a cada minuto
+    return () => clearInterval(interval);
+  }, [currentDate]);
+
   return (
     <section id="agenda" className="relative py-20 bg-black min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}
@@ -71,7 +85,7 @@ export default function AgendaAberta() {
         />
       </div>
       <div className="relative z-10 container mx-auto px-4">
-        <h2 className="text-3xl md:text-6xl font-bold text-center mb-8 md:mb-16 text-white leading-tight">
+        <h2 className="text-3xl md:text-6xl font-bold font-serif text-center mb-8 md:mb-16 text-white leading-tight">
           Agenda Aberta
         </h2>
         

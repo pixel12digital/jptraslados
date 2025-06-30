@@ -8,6 +8,10 @@ const images = [
   { src: '/images/corolla.png', alt: 'Toyota Corolla Black' },
   { src: '/images/van.png', alt: 'Van Executiva Black' },
   { src: '/images/virtus.png', alt: 'Volkswagen Virtus Black' },
+  { src: '/images/corolla-cross.png', alt: 'Toyota Corolla Cross Black' },
+  { src: '/images/kicks.png', alt: 'Nissan Kicks Black' },
+  { src: '/images/micro-onibus.png', alt: 'Micro-ônibus Executivo Black' },
+  { src: '/images/onibus.png', alt: 'Ônibus Executivo Black' },
 ]
 
 export default function HeroBanner() {
