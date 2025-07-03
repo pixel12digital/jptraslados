@@ -29,7 +29,7 @@ export default function Navbar() {
                 className="object-contain"
               />
             </Link>
-            <span className="hidden md:inline-block font-serif text-xl text-white font-semibold leading-tight">Transporte Executivo</span>
+            <span className="inline-block font-serif text-xl text-white font-semibold leading-tight ml-2 px-2 md:ml-0 md:px-0">Transporte Executivo</span>
           </div>
 
           {/* Desktop Menu */}

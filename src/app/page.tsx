@@ -53,7 +53,7 @@ export default function Home() {
                 <span className="text-white font-medium"> pontualidade, qualidade e atendimento personalizado</span>, 
                 trabalhamos para garantir que cada trajeto seja tranquilo e agradável para nossos clientes.
               </p>
-              <blockquote className="border-l-4 border-[#B8860B] pl-6 my-8">
+              <blockquote className="border-l-4 border-[#B8860B] pl-6 my-8 px-4">
                 <TypewriterText text='"Transformando cada trajeto em uma experiência única"' />
               </blockquote>
             </div>
