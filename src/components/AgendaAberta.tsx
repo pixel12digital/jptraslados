@@ -13,6 +13,7 @@ export default function AgendaAberta() {
   const [origem, setOrigem] = useState('');
   const [destino, setDestino] = useState('');
   const origemRef = useRef<HTMLInputElement>(null);
+  const [today, setToday] = useState<Date | null>(null);
 
   const availableTimes = [
     '08:00', '09:00', '10:00', '11:00', '12:00',
@@ -55,6 +56,10 @@ export default function AgendaAberta() {
       setShowTimeSelect(false);
     }
   };
+
+  useEffect(() => {
+    setToday(new Date());
+  }, []);
 
   // Atualiza automaticamente o mês exibido quando o mês do sistema muda
   useEffect(() => {
@@ -131,6 +136,7 @@ export default function AgendaAberta() {
                 ))}
                 {days.map((day, dayIdx) => {
                   const isSelected = selectedDate && day.toDateString() === selectedDate.toDateString();
+                  const isClientToday = today && day.toDateString() === today.toDateString();
                   return (
                     <button
                       key={day.toISOString()}
@@ -139,7 +145,7 @@ export default function AgendaAberta() {
                         p-2 md:p-3 text-center text-base md:text-lg font-medium rounded-full transition-colors
                         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#B8860B]
                         ${isSelected ? 'bg-[#B8860B] text-white hover:bg-[#B8860B]' : 'hover:bg-gray-200'}
-                        ${isToday(day) ? 'border-2 border-[#B8860B]' : ''}
+                        ${isClientToday ? 'border-2 border-[#B8860B]' : ''}
                         ${!isSameMonth(day, currentDate) ? 'text-gray-400' : 'text-gray-800'}
                       `}
                       aria-label={format(day, "d 'de' MMMM", { locale: ptBR })}
