@@ -46,6 +46,25 @@ yarn dev
 - `npm run start` - Inicia o servidor de produção
 - `npm run lint` - Executa a verificação de linting
 
+## Modo Manutenção
+
+### Ativar Modo Manutenção
+Para ativar o modo manutenção (site fica inacessível):
+```bash
+# No console do navegador (F12)
+localStorage.setItem('maintenance-mode', 'true')
+# Recarregar a página (F5)
+```
+
+### Desativar Modo Manutenção
+Para desativar o modo manutenção:
+1. **Abrir o site** (mesmo em manutenção)
+2. **Pressionar: `Ctrl + Shift + M`**
+3. **Digitar a senha: `JP2024`**
+4. **Pronto!**
+
+**Nota:** A senha padrão é `JP2024`. Para alterar, edite o componente `MaintenanceMode.tsx`.
+
 ## Deploy na Vercel
 
 A maneira mais fácil de fazer o deploy do seu aplicativo Next.js é usar a [Plataforma Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
