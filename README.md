@@ -64,6 +64,13 @@ Para desativar o modo manutenção:
 
 **Nota:** É só alterar `true` para `false` (ou vice-versa) na linha 4 do arquivo!
 
+### Características do Modo Manutenção
+- ✅ **Site completamente inacessível** para todos os usuários
+- ✅ **Header e Footer ocultos** durante a manutenção
+- ✅ **Sem informações de contato** na tela de manutenção
+- ✅ **Tela limpa e profissional** com mensagem de manutenção
+- ✅ **Funciona globalmente** em todos os navegadores e dispositivos
+
 ## Deploy na Vercel
 
 A maneira mais fácil de fazer o deploy do seu aplicativo Next.js é usar a [Plataforma Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).

@@ -14,20 +14,30 @@
 
 ## 📱 Como Funciona
 - ✅ **Site fica inacessível** para todos os usuários
-- ✅ **Só você pode alterar** editando o código
-- ✅ **Mensagem profissional** de manutenção
+- ✅ **Header e Footer ocultos** durante a manutenção
+- ✅ **Sem informações de contato** na tela
+- ✅ **Tela limpa e profissional** de manutenção
 - ✅ **Super simples** de ativar/desativar
+- ✅ **Funciona globalmente** em todos os navegadores
 
 ## 🎯 Casos de Uso
 - Cliente inadimplente
 - Manutenção do sistema
 - Atualizações importantes
 - Emergências técnicas
+- Bloqueio temporário do site
 
 ## 🔧 Personalizar
-- **Mudar mensagem**: Editar `MaintenanceMode.tsx` linhas 15-20
-- **Mudar contato**: Editar `MaintenanceMode.tsx` linha 22
+- **Mudar mensagem**: Editar `MaintenanceMode.tsx` linhas 35-38
 - **Mudar cores**: Editar classes do Tailwind
+- **Mudar ícone**: Editar `MaintenanceMode.tsx` linha 33
+
+## 🚀 Vantagens
+- **Seguro**: Só você pode alterar o código
+- **Rápido**: Uma linha para ativar/desativar
+- **Global**: Funciona para todos os usuários
+- **Profissional**: Tela elegante e limpa
+- **Sem contato**: Usuários não conseguem entrar em contato
 
 ---
 **💡 Dica**: É só alterar `true` para `false` (ou vice-versa) na linha 4! 

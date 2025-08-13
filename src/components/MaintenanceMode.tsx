@@ -9,13 +9,13 @@ export default function MaintenanceMode() {
   useEffect(() => {
     if (isMaintenanceMode) {
       // Ocultar header e footer quando em manutenção
-      const mainContent = document.querySelector('.main-content');
+      const mainContent = document.querySelector('.main-content') as HTMLElement;
       if (mainContent) {
         mainContent.style.display = 'none';
       }
     } else {
       // Mostrar header e footer quando não em manutenção
-      const mainContent = document.querySelector('.main-content');
+      const mainContent = document.querySelector('.main-content') as HTMLElement;
       if (mainContent) {
         mainContent.style.display = 'block';
       }
