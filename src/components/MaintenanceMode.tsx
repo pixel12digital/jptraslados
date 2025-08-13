@@ -1,35 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
 export default function MaintenanceMode() {
-  const [isMaintenanceMode, setIsMaintenanceMode] = useState(false);
+  // 🔧 SIMPLES: Mude para true para ativar manutenção, false para desativar
+  const isMaintenanceMode = true; // ← MUDAR AQUI: true = manutenção, false = site normal
   
-  useEffect(() => {
-    // Verificar se está em modo manutenção
-    const maintenance = localStorage.getItem('maintenance-mode') === 'true';
-    setIsMaintenanceMode(maintenance);
-  }, []);
-
-  // Atalho secreto: Ctrl + Shift + M
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'M') {
-        const senha = prompt('Digite a senha para desativar o modo manutenção:');
-        if (senha === 'JP2024') {
-          localStorage.removeItem('maintenance-mode');
-          setIsMaintenanceMode(false);
-          window.location.reload();
-        } else if (senha !== null) {
-          alert('Senha incorreta!');
-        }
-      }
-    };
-    
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
-  }, []);
-
   if (!isMaintenanceMode) return null;
   
   return (

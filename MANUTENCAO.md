@@ -1,23 +1,22 @@
 # 🚧 Modo Manutenção - JP Traslados
 
 ## ⚡ Ativar Rapidamente
-```bash
-# No console do navegador (F12)
-localStorage.setItem('maintenance-mode', 'true')
-# Recarregar página (F5)
-```
+1. **Abrir arquivo**: `src/components/MaintenanceMode.tsx`
+2. **Mudar linha 4**: `const isMaintenanceMode = true;`
+3. **Salvar arquivo**
+4. **Recarregar página** (F5)
 
 ## 🔓 Desativar Rapidamente
-1. **Abrir o site** (mesmo em manutenção)
-2. **Pressionar: `Ctrl + Shift + M`**
-3. **Digitar senha: `JP2024`**
-4. **Pronto!**
+1. **Abrir arquivo**: `src/components/MaintenanceMode.tsx`
+2. **Mudar linha 4**: `const isMaintenanceMode = false;`
+3. **Salvar arquivo**
+4. **Recarregar página** (F5)
 
 ## 📱 Como Funciona
 - ✅ **Site fica inacessível** para todos os usuários
-- ✅ **Só você pode desativar** com o atalho secreto
+- ✅ **Só você pode alterar** editando o código
 - ✅ **Mensagem profissional** de manutenção
-- ✅ **Fácil de ativar/desativar** sem recompilar
+- ✅ **Super simples** de ativar/desativar
 
 ## 🎯 Casos de Uso
 - Cliente inadimplente
@@ -26,9 +25,9 @@ localStorage.setItem('maintenance-mode', 'true')
 - Emergências técnicas
 
 ## 🔧 Personalizar
-- **Mudar senha**: Editar `MaintenanceMode.tsx` linha 32
-- **Mudar mensagem**: Editar `MaintenanceMode.tsx` linhas 40-45
-- **Mudar contato**: Editar `MaintenanceMode.tsx` linha 47
+- **Mudar mensagem**: Editar `MaintenanceMode.tsx` linhas 15-20
+- **Mudar contato**: Editar `MaintenanceMode.tsx` linha 22
+- **Mudar cores**: Editar classes do Tailwind
 
 ---
-**💡 Dica**: Mantenha este arquivo salvo para consulta rápida! 
+**💡 Dica**: É só alterar `true` para `false` (ou vice-versa) na linha 4! 

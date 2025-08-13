@@ -50,20 +50,19 @@ yarn dev
 
 ### Ativar Modo Manutenção
 Para ativar o modo manutenção (site fica inacessível):
-```bash
-# No console do navegador (F12)
-localStorage.setItem('maintenance-mode', 'true')
-# Recarregar a página (F5)
-```
+1. **Abrir arquivo**: `src/components/MaintenanceMode.tsx`
+2. **Mudar linha 4**: `const isMaintenanceMode = true;`
+3. **Salvar arquivo**
+4. **Recarregar página** (F5)
 
 ### Desativar Modo Manutenção
 Para desativar o modo manutenção:
-1. **Abrir o site** (mesmo em manutenção)
-2. **Pressionar: `Ctrl + Shift + M`**
-3. **Digitar a senha: `JP2024`**
-4. **Pronto!**
+1. **Abrir arquivo**: `src/components/MaintenanceMode.tsx`
+2. **Mudar linha 4**: `const isMaintenanceMode = false;`
+3. **Salvar arquivo**
+4. **Recarregar página** (F5)
 
-**Nota:** A senha padrão é `JP2024`. Para alterar, edite o componente `MaintenanceMode.tsx`.
+**Nota:** É só alterar `true` para `false` (ou vice-versa) na linha 4 do arquivo!
 
 ## Deploy na Vercel
 
@@ -81,13 +80,15 @@ jp-traslados/
 │   │   └── page.tsx
 │   ├── components/
 │   │   ├── Navbar.tsx
-│   │   └── Footer.tsx
+│   │   ├── Footer.tsx
+│   │   └── MaintenanceMode.tsx
 │   └── styles/
 │       └── globals.css
 ├── package.json
 ├── tsconfig.json
 ├── tailwind.config.js
-└── README.md
+├── README.md
+└── MANUTENCAO.md
 ```
 
 ## Contribuindo
