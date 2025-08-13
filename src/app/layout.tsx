@@ -30,9 +30,12 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${inter.variable} ${playfair.variable}`}>
       <body className={inter.className}>
         <MaintenanceMode />
-        <Navbar />
-        {children}
-        <Footer />
+        {/* Header e Footer só aparecem quando NÃO estiver em manutenção */}
+        <div className="main-content">
+          <Navbar />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   )

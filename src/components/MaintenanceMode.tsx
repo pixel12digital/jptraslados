@@ -1,9 +1,27 @@
 'use client';
 
+import { useEffect } from 'react';
+
 export default function MaintenanceMode() {
   // 🔧 SIMPLES: Mude para true para ativar manutenção, false para desativar
   const isMaintenanceMode = true; // ← MUDAR AQUI: true = manutenção, false = site normal
   
+  useEffect(() => {
+    if (isMaintenanceMode) {
+      // Ocultar header e footer quando em manutenção
+      const mainContent = document.querySelector('.main-content');
+      if (mainContent) {
+        mainContent.style.display = 'none';
+      }
+    } else {
+      // Mostrar header e footer quando não em manutenção
+      const mainContent = document.querySelector('.main-content');
+      if (mainContent) {
+        mainContent.style.display = 'block';
+      }
+    }
+  }, [isMaintenanceMode]);
+
   if (!isMaintenanceMode) return null;
   
   return (
@@ -17,9 +35,6 @@ export default function MaintenanceMode() {
           Estamos realizando melhorias em nosso sistema. 
           Em breve estaremos de volta com novidades!
         </p>
-        <div className="text-sm text-gray-500 mb-4">
-          Para suporte: contato@jptraslados.com
-        </div>
         <div className="text-xs text-gray-400 border-t pt-4">
           ⚠️ Site temporariamente indisponível
         </div>
