@@ -19,6 +19,9 @@ const playfair = Playfair_Display({
 export const metadata = {
   title: 'JP Traslados | Transporte Executivo',
   description: 'Serviços de transporte executivo com excelência, conforto e segurança em São Paulo.',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
