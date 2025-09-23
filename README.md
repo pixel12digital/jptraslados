@@ -2,6 +2,10 @@
 
 Website moderno para a JP Traslados, empresa de transporte executivo em São Paulo.
 
+## Cartão Digital PWA
+
+Inclui um Cartão Digital (Link-in-Bio) com funcionalidade PWA para instalação no celular.
+
 ## Tecnologias Utilizadas
 
 - Next.js 14
