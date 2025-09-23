@@ -73,8 +73,42 @@ export default function PWAInstaller() {
       setDeferredPrompt(null)
       setShowInstallButton(false)
     } else {
-      // Instalação manual - mostrar instruções
-      alert('Para instalar o Cartão Digital:\n\nAndroid: Menu (3 pontos) → "Adicionar à tela inicial"\niPhone: Compartilhar → "Adicionar à Tela de Início"')
+      // Instalação manual - tentar abrir prompt nativo
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'JP Traslados - Cartão Digital',
+            text: 'Acesse o cartão digital da JP Traslados',
+            url: window.location.href
+          })
+        } catch (err) {
+          // Fallback para instruções simples
+          alert('Para instalar: Android: Menu (⋮) → "Adicionar à tela inicial" | iPhone: Compartilhar → "Adicionar à Tela de Início"')
+        }
+      } else {
+        // Fallback para instruções simples
+        alert('Para instalar: Android: Menu (⋮) → "Adicionar à tela inicial" | iPhone: Compartilhar → "Adicionar à Tela de Início"')
+      }
+    }
+  }
+
+  const handleShareClick = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'JP Traslados - Cartão Digital',
+          text: 'Acesse o cartão digital da JP Traslados',
+          url: window.location.href
+        })
+      } catch (err) {
+        // Fallback para copiar URL
+        navigator.clipboard.writeText(window.location.href)
+        alert('Link copiado! Compartilhe com seus contatos.')
+      }
+    } else {
+      // Fallback para copiar URL
+      navigator.clipboard.writeText(window.location.href)
+      alert('Link copiado! Compartilhe com seus contatos.')
     }
   }
 
@@ -86,18 +120,45 @@ export default function PWAInstaller() {
       bottom: '20px',
       right: '20px',
       zIndex: 1000,
-      background: '#B8860B',
-      color: 'white',
-      padding: '12px 16px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-      cursor: 'pointer',
-      fontSize: '14px',
-      fontWeight: '500',
-      maxWidth: '200px',
-      textAlign: 'center'
-    }} onClick={handleInstallClick}>
-      Instalar Cartão Digital
+      display: 'flex',
+      gap: '10px'
+    }}>
+      {/* Botão de Compartilhar */}
+      <div
+        style={{
+          background: '#2a2a2a',
+          color: 'white',
+          padding: '12px 16px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontWeight: '500',
+          textAlign: 'center',
+          border: '1px solid #B8860B'
+        }}
+        onClick={handleShareClick}
+      >
+        Compartilhar
+      </div>
+      
+      {/* Botão de Instalar */}
+      <div
+        style={{
+          background: '#B8860B',
+          color: 'white',
+          padding: '12px 16px',
+          borderRadius: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontWeight: '500',
+          textAlign: 'center'
+        }}
+        onClick={handleInstallClick}
+      >
+        Instalar
+      </div>
     </div>
   )
 }
