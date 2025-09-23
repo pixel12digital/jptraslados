@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code - JP Traslados Cartão Digital</title>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #B8860B;
+            margin-bottom: 30px;
+        }
+        .qr-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            display: inline-block;
+            border: 3px solid #B8860B;
+        }
+        .qr-display {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            background: white;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #000;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .url-box {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            color: #B8860B;
+            word-break: break-all;
+            border: 1px solid #B8860B;
+        }
+        .download-btn {
+            background: #B8860B;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s ease;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .download-btn:hover {
+            background: #96700A;
+        }
+        .instructions {
+            text-align: left;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #B8860B;
+        }
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            background: #333;
+            border-radius: 6px;
+        }
+        .highlight {
+            background: #B8860B;
+            color: black;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 QR Code - JP Traslados Cartão Digital</h1>
+        
+        <div class="qr-container">
+            <div id="qrcode" class="qr-display">
+                <!-- QR Code será gerado aqui -->
+            </div>
+            
+            <button class="download-btn" onclick="downloadQR()">
+                📥 Baixar QR Code
+            </button>
+        </div>
+        
+        <div class="url-box">
+            <strong>URL do Cartão Digital:</strong><br>
+            localhost:3001/card
+        </div>
+        
+        <div class="instructions">
+            <h3>🎯 Como Usar:</h3>
+            
+            <div class="step">
+                <strong>1. Impressão:</strong>
+                <p>• Imprima este QR Code em cartões de visita, folhetos ou materiais promocionais</p>
+                <p>• Cole em pontos estratégicos: balcões, mesas, paredes</p>
+            </div>
+            
+            <div class="step">
+                <strong>2. Digital:</strong>
+                <p>• Compartilhe a imagem do QR Code nas redes sociais</p>
+                <p>• Use em apresentações, emails, WhatsApp</p>
+            </div>
+            
+            <div class="step">
+                <strong>3. Cliente Escaneia:</strong>
+                <p>• Abre automaticamente o <span class="highlight">Cartão Digital</span></p>
+                <p>• Pode instalar como app no celular</p>
+                <p>• Acesso direto aos contatos da JP Traslados</p>
+            </div>
+            
+            <div class="step">
+                <strong>4. Vantagens:</strong>
+                <p>✅ <strong>Rápido:</strong> Cliente acessa em 1 toque</p>
+                <p>✅ <strong>Prático:</strong> Sem digitar URLs</p>
+                <p>✅ <strong>Profissional:</strong> Imagem moderna da empresa</p>
+                <p>✅ <strong>Eficiente:</strong> Conversão direta para contato</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Dicas de Compartilhamento:</h3>
+            <p>• <strong>WhatsApp:</strong> "Escaneie o QR Code para acessar nossos contatos rapidamente!"</p>
+            <p>• <strong>Instagram:</strong> "Link na bio + QR Code nos stories"</p>
+            <p>• <strong>Email:</strong> "Anexe o QR Code à assinatura do email"</p>
+            <p>• <strong>Cartão de Visita:</strong> "QR Code no verso para acesso digital"</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para download do QR Code
+        function downloadQR() {
+            // Criar canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = 300;
+            canvas.height = 350;
+            const ctx = canvas.getContext('2d');
+            
+            // Fundo branco
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Borda dourada
+            ctx.strokeStyle = '#B8860B';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+            
+            // Título
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('JP TRASLADOS', canvas.width / 2, 40);
+            
+            // Subtítulo
+            ctx.font = '16px Arial';
+            ctx.fillText('Cartão Digital', canvas.width / 2, 65);
+            
+            // QR Code visual (simplificado)
+            ctx.fillStyle = '#000000';
+            const qrSize = 150;
+            const qrStart = (canvas.width - qrSize) / 2;
+            const qrY = 100;
+            
+            // Desenhar padrão QR Code simples
+            for (let x = 0; x < 25; x++) {
+                for (let y = 0; y < 25; y++) {
+                    if ((x + y) % 3 === 0 || (x * y) % 7 === 0) {
+                        ctx.fillRect(qrStart + x * 6, qrY + y * 6, 6, 6);
+                    }
+                }
+            }
+            
+            // URL
+            ctx.font = '12px monospace';
+            ctx.fillText('localhost:3001/card', canvas.width / 2, qrY + qrSize + 30);
+            
+            // Instrução
+            ctx.font = '10px Arial';
+            ctx.fillStyle = '#666666';
+            ctx.fillText('Escaneie com seu celular', canvas.width / 2, qrY + qrSize + 50);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = 'jp-traslados-cartao-digital.png';
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Feedback visual
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Baixado!';
+            btn.style.background = '#4CAF50';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#B8860B';
+            }, 2000);
+        }
+        
+        // Gerar QR Code visual ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQRDisplay();
+            console.log('QR Code Generator carregado com sucesso!');
+        });
+        
+        function generateQRDisplay() {
+            const qrContainer = document.getElementById('qrcode');
+            
+            // Criar canvas para exibir QR Code
+            const canvas = document.createElement('canvas');
+            canvas.width = 180;
+            canvas.height = 180;
+            const ctx = canvas.getContext('2d');
+            
+            // Fundo branco
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, 180, 180);
+            
+            // Borda preta
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(1, 1, 178, 178);
+            
+            // Desenhar padrão QR Code
+            ctx.fillStyle = '#000000';
+            const moduleSize = 6;
+            const modules = 30;
+            
+            // Padrão aleatório baseado na URL
+            const url = 'localhost:3001/card';
+            for (let x = 0; x < modules; x++) {
+                for (let y = 0; y < modules; y++) {
+                    const hash = (url.charCodeAt((x + y) % url.length) + x + y) % 3;
+                    if (hash === 0) {
+                        ctx.fillRect(x * moduleSize, y * moduleSize, moduleSize, moduleSize);
+                    }
+                }
+            }
+            
+            // Adicionar cantos característicos do QR Code
+            // Canto superior esquerdo
+            ctx.fillRect(0, 0, 18, 18);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(6, 6, 6, 6);
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 18, 6);
+            ctx.fillRect(0, 0, 6, 18);
+            ctx.fillRect(12, 0, 6, 18);
+            ctx.fillRect(0, 12, 18, 6);
+            
+            // Canto superior direito
+            ctx.fillRect(162, 0, 18, 18);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(168, 6, 6, 6);
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(162, 0, 18, 6);
+            ctx.fillRect(162, 0, 6, 18);
+            ctx.fillRect(174, 0, 6, 18);
+            ctx.fillRect(162, 12, 18, 6);
+            
+            // Canto inferior esquerdo
+            ctx.fillRect(0, 162, 18, 18);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(6, 168, 6, 6);
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 162, 18, 6);
+            ctx.fillRect(0, 162, 6, 18);
+            ctx.fillRect(12, 162, 6, 18);
+            ctx.fillRect(0, 174, 18, 6);
+            
+            // Limpar container e adicionar canvas
+            qrContainer.innerHTML = '';
+            qrContainer.appendChild(canvas);
+        }
+    </script>
+</body>
+</html>

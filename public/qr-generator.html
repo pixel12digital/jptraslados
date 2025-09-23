@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code - JP Traslados Cartão Digital</title>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #B8860B;
+        }
+        .qr-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .url-box {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            color: #B8860B;
+            word-break: break-all;
+        }
+        .instructions {
+            text-align: left;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 6px;
+            border-left: 4px solid #B8860B;
+        }
+        .highlight {
+            background: #B8860B;
+            color: black;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+    <!-- Removendo bibliotecas externas que não estão carregando -->
+</head>
+<body>
+    <div class="container">
+        <h1>📱 QR Code - JP Traslados Cartão Digital</h1>
+        
+        <div class="qr-container">
+            <div id="qrcode"></div>
+        </div>
+        
+        <div class="url-box">
+            localhost:3001/card
+        </div>
+        
+        <div class="instructions">
+            <h3>🎯 Como Usar o QR Code:</h3>
+            
+            <div class="step">
+                <strong>1. Impressão:</strong>
+                <p>• Imprima este QR Code em cartões de visita, folhetos ou materiais promocionais</p>
+                <p>• Cole em pontos estratégicos: balcões, mesas, paredes</p>
+            </div>
+            
+            <div class="step">
+                <strong>2. Digital:</strong>
+                <p>• Compartilhe a imagem do QR Code nas redes sociais</p>
+                <p>• Use em apresentações, emails, WhatsApp</p>
+            </div>
+            
+            <div class="step">
+                <strong>3. Cliente Escaneia:</strong>
+                <p>• Abre automaticamente o <span class="highlight">Cartão Digital</span></p>
+                <p>• Pode instalar como app no celular</p>
+                <p>• Acesso direto aos contatos da JP Traslados</p>
+            </div>
+            
+            <div class="step">
+                <strong>4. Vantagens:</strong>
+                <p>✅ <strong>Rápido:</strong> Cliente acessa em 1 toque</p>
+                <p>✅ <strong>Prático:</strong> Sem digitar URLs</p>
+                <p>✅ <strong>Profissional:</strong> Imagem moderna da empresa</p>
+                <p>✅ <strong>Eficiente:</strong> Conversão direta para contato</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Dicas de Compartilhamento:</h3>
+            <p>• <strong>WhatsApp:</strong> "Escaneie o QR Code para acessar nossos contatos rapidamente!"</p>
+            <p>• <strong>Instagram:</strong> "Link na bio + QR Code nos stories"</p>
+            <p>• <strong>Email:</strong> "Anexe o QR Code à assinatura do email"</p>
+            <p>• <strong>Cartão de Visita:</strong> "QR Code no verso para acesso digital"</p>
+        </div>
+    </div>
+
+    <script>
+        // Versão 2.0 - QR Code com API online
+        document.addEventListener('DOMContentLoaded', function() {
+            const url = 'http://localhost:3001/card';
+            const qrContainer = document.getElementById('qrcode');
+            
+            // Limpar container primeiro
+            qrContainer.innerHTML = '<p style="color: #B8860B;">Gerando QR Code...</p>';
+            
+            // Usar API do Google Charts para gerar QR Code
+            const qrUrl = `https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=${encodeURIComponent(url)}`;
+            
+            // Criar imagem do QR Code
+            const qrImage = document.createElement('img');
+            qrImage.src = qrUrl;
+            qrImage.alt = 'QR Code JP Traslados Cartão Digital';
+            qrImage.style.width = '200px';
+            qrImage.style.height = '200px';
+            qrImage.style.border = '2px solid #B8860B';
+            qrImage.style.borderRadius = '8px';
+            qrImage.style.display = 'none'; // Esconder até carregar
+            
+            // Adicionar evento de carregamento
+            qrImage.onload = function() {
+                qrContainer.innerHTML = '';
+                qrContainer.appendChild(qrImage);
+                qrImage.style.display = 'block';
+                addDownloadButton();
+                console.log('QR Code gerado com sucesso!');
+            };
+            
+            // Adicionar evento de erro
+            qrImage.onerror = function() {
+                qrContainer.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <p style="color: red; margin-bottom: 20px;">Erro ao carregar QR Code. Tentando método alternativo...</p>
+                        <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #B8860B;">
+                            <p style="color: black; margin: 0; font-size: 14px;">QR Code Manual:</p>
+                            <p style="color: black; margin: 10px 0; font-family: monospace; font-size: 12px; word-break: break-all;">${url}</p>
+                            <p style="color: #666; margin: 0; font-size: 12px;">Use qualquer app de QR Code para gerar</p>
+                        </div>
+                    </div>
+                `;
+                addDownloadButton();
+            };
+            
+            // Adicionar imagem ao container
+            qrContainer.appendChild(qrImage);
+        });
+        
+        // Função para download do QR Code
+        function downloadQR() {
+            const img = document.querySelector('#qrcode img');
+            if (!img) {
+                alert('QR Code não encontrado. Recarregue a página.');
+                return;
+            }
+            
+            // Criar canvas para converter imagem em PNG
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            
+            // Desenhar imagem no canvas
+            ctx.drawImage(img, 0, 0);
+            
+            // Criar link de download
+            const link = document.createElement('a');
+            link.download = 'jp-traslados-cartao-digital.png';
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // Função para adicionar botão de download
+        function addDownloadButton() {
+            const qrContainer = document.querySelector('.qr-container');
+            const existingBtn = qrContainer.querySelector('.download-btn');
+            
+            if (existingBtn) {
+                existingBtn.remove();
+            }
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = '📥 Baixar QR Code';
+            downloadBtn.className = 'download-btn';
+            downloadBtn.style.cssText = `
+                background: #B8860B;
+                color: black;
+                border: none;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-weight: bold;
+                cursor: pointer;
+                margin: 20px;
+                font-size: 16px;
+                transition: background 0.3s ease;
+            `;
+            
+            downloadBtn.onmouseover = function() {
+                this.style.background = '#96700A';
+            };
+            
+            downloadBtn.onmouseout = function() {
+                this.style.background = '#B8860B';
+            };
+            
+            downloadBtn.onclick = downloadQR;
+            qrContainer.appendChild(downloadBtn);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+import type { Metadata, Viewport } from 'next'
+
+export const metadata: Metadata = {
+  title: 'JP Traslados - Cartão Digital | Transporte Executivo SP',
+  description: 'Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados. Transporte executivo seguro e confortável em São Paulo.',
+  manifest: '/manifest.json',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/images/logo.png',
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'JP Card',
+  },
+  openGraph: {
+    title: 'JP Traslados - Cartão Digital',
+    description: 'Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados.',
+    url: '/card',
+    siteName: 'JP Traslados',
+    images: [
+      {
+        url: '/images/logo.png',
+        width: 512,
+        height: 512,
+        alt: 'JP Traslados Logo',
+      },
+    ],
+    locale: 'pt_BR',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'JP Traslados - Cartão Digital',
+    description: 'Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados.',
+    images: ['/images/logo.png'],
+  },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#B8860B',
+}
+
+export default function CardLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return <>{children}</>
+}

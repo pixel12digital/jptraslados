@@ -1,0 +1,28 @@
+{
+  "name": "JP Traslados - Cartão Digital",
+  "short_name": "JP Card",
+  "description": "Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados. Transporte executivo em São Paulo.",
+  "start_url": "/card",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#B8860B",
+  "orientation": "portrait-primary",
+  "scope": "/card",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["transportation", "travel", "business"],
+  "prefer_related_applications": false
+}

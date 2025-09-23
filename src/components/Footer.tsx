@@ -14,7 +14,7 @@ export default function Footer() {
   return (
     <footer className="bg-black text-white border-t border-[#222]">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-8">
           {/* Logo e Descrição */}
           <div className="col-span-1 md:col-span-2">
             <div className="relative w-[300px] h-[100px] mb-6">
@@ -140,9 +140,53 @@ export default function Footer() {
                 </svg>
                 <a 
                   href="mailto:contato@jptraslados.com.br"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 hover:text-[#B8860B] transition-colors underline hover:no-underline"
                 >
                   contato@jptraslados.com.br
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Cartão Digital */}
+          <div className="col-span-1">
+            <h3 className="text-xl font-bold font-serif mb-6 text-[#B8860B]">Cartão Digital</h3>
+            <ul className="space-y-4">
+              <li>
+                <Link 
+                  href="/card"
+                  className="text-gray-300 hover:text-white transition-colors flex items-center space-x-3"
+                >
+                  <svg className="w-5 h-5 text-[#B8860B]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17 1.01L7 1c-1.1 0-1.99.9-1.99 2v18c0 1.1.89 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+                  </svg>
+                  <span>Acessar Cartão</span>
+                </Link>
+              </li>
+              <li>
+                <a 
+                  href="/qr-real.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors flex items-center space-x-3"
+                >
+                  <svg className="w-5 h-5 text-[#B8860B]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM18 13h-2v2h2v-2zM18 17h-2v2h2v-2zM14 17h-2v2h2v-2z"/>
+                  </svg>
+                  <span>Baixar QR Code</span>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="/pwa-instructions.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors flex items-center space-x-3"
+                >
+                  <svg className="w-5 h-5 text-[#B8860B]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <span>Como Instalar</span>
                 </a>
               </li>
             </ul>

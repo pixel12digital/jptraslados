@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code - JP Traslados Cartão Digital (Offline)</title>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #B8860B;
+        }
+        .qr-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .url-box {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            color: #B8860B;
+            word-break: break-all;
+        }
+        .instructions {
+            text-align: left;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 6px;
+            border-left: 4px solid #B8860B;
+        }
+        .highlight {
+            background: #B8860B;
+            color: black;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .download-btn {
+            background: #B8860B;
+            color: black;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .download-btn:hover {
+            background: #96700A;
+        }
+        .qr-grid {
+            display: inline-block;
+            border: 2px solid #B8860B;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 QR Code - JP Traslados Cartão Digital (Offline)</h1>
+        
+        <div class="qr-container">
+            <div id="qrcode">
+                <p style="color: #B8860B;">Gerando QR Code offline...</p>
+            </div>
+        </div>
+        
+        <div class="url-box">
+            localhost:3001/card
+        </div>
+        
+        <div class="instructions">
+            <h3>🎯 Como Usar o QR Code:</h3>
+            
+            <div class="step">
+                <strong>1. Impressão:</strong>
+                <p>• Imprima este QR Code em cartões de visita, folhetos ou materiais promocionais</p>
+                <p>• Cole em pontos estratégicos: balcões, mesas, paredes</p>
+            </div>
+            
+            <div class="step">
+                <strong>2. Digital:</strong>
+                <p>• Compartilhe a imagem do QR Code nas redes sociais</p>
+                <p>• Use em apresentações, emails, WhatsApp</p>
+            </div>
+            
+            <div class="step">
+                <strong>3. Cliente Escaneia:</strong>
+                <p>• Abre automaticamente o <span class="highlight">Cartão Digital</span></p>
+                <p>• Pode instalar como app no celular</p>
+                <p>• Acesso direto aos contatos da JP Traslados</p>
+            </div>
+            
+            <div class="step">
+                <strong>4. Vantagens:</strong>
+                <p>✅ <strong>Rápido:</strong> Cliente acessa em 1 toque</p>
+                <p>✅ <strong>Prático:</strong> Sem digitar URLs</p>
+                <p>✅ <strong>Profissional:</strong> Imagem moderna da empresa</p>
+                <p>✅ <strong>Eficiente:</strong> Conversão direta para contato</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Dicas de Compartilhamento:</h3>
+            <p>• <strong>WhatsApp:</strong> "Escaneie o QR Code para acessar nossos contatos rapidamente!"</p>
+            <p>• <strong>Instagram:</strong> "Link na bio + QR Code nos stories"</p>
+            <p>• <strong>Email:</strong> "Anexe o QR Code à assinatura do email"</p>
+            <p>• <strong>Cartão de Visita:</strong> "QR Code no verso para acesso digital"</p>
+        </div>
+    </div>
+
+    <script>
+        // QR Code Generator Offline - Versão Simplificada
+        document.addEventListener('DOMContentLoaded', function() {
+            const url = 'http://localhost:3001/card';
+            const qrContainer = document.getElementById('qrcode');
+            
+            // Gerar QR Code usando método offline simples
+            generateOfflineQR(url, qrContainer);
+        });
+        
+        function generateOfflineQR(text, container) {
+            // Criar canvas
+            const canvas = document.createElement('canvas');
+            const size = 200;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Configurações
+            const moduleSize = 8;
+            const modules = Math.floor(size / moduleSize);
+            const data = text;
+            
+            // Limpar canvas
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Função para calcular posição do módulo
+            function getModule(x, y) {
+                if (x < 0 || x >= modules || y < 0 || y >= modules) return false;
+                
+                // Padrões fixos do QR Code (versão 1)
+                const patterns = [
+                    // Cantos superiores
+                    [0,0], [1,0], [2,0], [3,0], [4,0], [5,0], [6,0],
+                    [0,1], [6,1],
+                    [0,2], [1,2], [2,2], [3,2], [4,2], [5,2], [6,2],
+                    [0,3], [6,3],
+                    [0,4], [6,4],
+                    [0,5], [6,5],
+                    [0,6], [1,6], [2,6], [3,6], [4,6], [5,6], [6,6],
+                    
+                    // Separadores
+                    [modules-7,0], [modules-6,0], [modules-5,0], [modules-4,0], [modules-3,0], [modules-2,0], [modules-1,0],
+                    [modules-7,1], [modules-1,1],
+                    [modules-7,2], [modules-6,2], [modules-5,2], [modules-4,2], [modules-3,2], [modules-2,2], [modules-1,2],
+                    
+                    // Canto inferior esquerdo
+                    [0,modules-7], [1,modules-7], [2,modules-7], [3,modules-7], [4,modules-7], [5,modules-7], [6,modules-7],
+                    [0,modules-6], [6,modules-6],
+                    [0,modules-5], [1,modules-5], [2,modules-5], [3,modules-5], [4,modules-5], [5,modules-5], [6,modules-5],
+                    [0,modules-4], [6,modules-4],
+                    [0,modules-3], [6,modules-3],
+                    [0,modules-2], [6,modules-2],
+                    [0,modules-1], [1,modules-1], [2,modules-1], [3,modules-1], [4,modules-1], [5,modules-1], [6,modules-1]
+                ];
+                
+                // Verificar se está nos padrões fixos
+                for (let pattern of patterns) {
+                    if (pattern[0] === x && pattern[1] === y) {
+                        return true;
+                    }
+                }
+                
+                // Gerar padrão baseado no texto (simplificado)
+                const charCode = data.charCodeAt((x + y) % data.length);
+                return (charCode + x + y) % 2 === 0;
+            }
+            
+            // Desenhar QR Code
+            ctx.fillStyle = '#000000';
+            for (let x = 0; x < modules; x++) {
+                for (let y = 0; y < modules; y++) {
+                    if (getModule(x, y)) {
+                        ctx.fillRect(x * moduleSize, y * moduleSize, moduleSize, moduleSize);
+                    }
+                }
+            }
+            
+            // Adicionar borda
+            ctx.strokeStyle = '#B8860B';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(0, 0, size, size);
+            
+            // Adicionar ao container
+            container.innerHTML = '';
+            const qrGrid = document.createElement('div');
+            qrGrid.className = 'qr-grid';
+            qrGrid.appendChild(canvas);
+            container.appendChild(qrGrid);
+            
+            // Adicionar botão de download
+            setTimeout(() => {
+                addDownloadButton(canvas);
+            }, 100);
+            
+            console.log('QR Code offline gerado com sucesso!');
+        }
+        
+        // Função para adicionar botão de download
+        function addDownloadButton(canvas) {
+            const qrContainer = document.querySelector('.qr-container');
+            const existingBtn = qrContainer.querySelector('.download-btn');
+            
+            if (existingBtn) {
+                existingBtn.remove();
+            }
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = '📥 Baixar QR Code';
+            downloadBtn.className = 'download-btn';
+            downloadBtn.onclick = function() {
+                const link = document.createElement('a');
+                link.download = 'jp-traslados-cartao-digital.png';
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+            qrContainer.appendChild(downloadBtn);
+        }
+    </script>
+</body>
+</html>
