@@ -51,6 +51,9 @@ export default function Navbar() {
                 Agenda
               </button>
             </li>
+            <Link href="/card" className="text-[#B8860B] hover:text-white transition-colors font-medium">
+              Cartão Digital
+            </Link>
             <a 
               href="https://wa.me/5511965221349"
               target="_blank"
@@ -125,6 +128,13 @@ export default function Navbar() {
                   Agenda
                 </button>
               </li>
+              <Link
+                href="/card"
+                className="text-[#B8860B] hover:text-white transition-colors font-medium px-4"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Cartão Digital
+              </Link>
               <a 
                 href="https://wa.me/5511965221349"
                 target="_blank"

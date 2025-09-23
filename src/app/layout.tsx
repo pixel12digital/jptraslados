@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import MaintenanceMode from '@/components/MaintenanceMode'
+import ConditionalLayout from '@/components/ConditionalLayout'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -33,12 +34,9 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${inter.variable} ${playfair.variable}`}>
       <body className={inter.className}>
         <MaintenanceMode />
-        {/* Header e Footer só aparecem quando NÃO estiver em manutenção */}
-        <div className="main-content">
-          <Navbar />
+        <ConditionalLayout>
           {children}
-          <Footer />
-        </div>
+        </ConditionalLayout>
       </body>
     </html>
   )
