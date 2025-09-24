@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Ícones PWA - JP Traslados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #B8860B;
+        }
+        .icon-canvas {
+            border: 2px solid #B8860B;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #B8860B;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #D4AF37;
+        }
+        .download-all {
+            background: #2a2a2a;
+            border: 2px solid #B8860B;
+            color: #B8860B;
+        }
+        .download-all:hover {
+            background: #B8860B;
+            color: white;
+        }
+        h1 {
+            color: #B8860B;
+            text-align: center;
+        }
+        .instructions {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #B8860B;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Gerador de Ícones PWA - JP Traslados</h1>
+        
+        <div class="instructions">
+            <h3>📋 Instruções:</h3>
+            <ol>
+                <li>Clique em "Gerar Ícones" para criar os ícones com fundo preto</li>
+                <li>Baixe cada tamanho individualmente ou use "Baixar Todos"</li>
+                <li>Substitua os arquivos na pasta <code>public/images/</code></li>
+                <li>Os ícones serão usados no PWA para tela inicial e ícone do app</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button onclick="generateIcons()">🎨 Gerar Ícones</button>
+            <button onclick="downloadAllIcons()" class="download-all">📦 Baixar Todos</button>
+        </div>
+
+        <div id="icons-container"></div>
+    </div>
+
+    <script>
+        const sizes = [
+            { size: 72, name: '72x72' },
+            { size: 96, name: '96x96' },
+            { size: 128, name: '128x128' },
+            { size: 144, name: '144x144' },
+            { size: 152, name: '152x152' },
+            { size: 192, name: '192x192' },
+            { size: 384, name: '384x384' },
+            { size: 512, name: '512x512' }
+        ];
+
+        function generateIcons() {
+            const container = document.getElementById('icons-container');
+            container.innerHTML = '';
+
+            sizes.forEach(({ size, name }) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                canvas.className = 'icon-canvas';
+
+                const ctx = canvas.getContext('2d');
+
+                // Fundo preto
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, size, size);
+
+                // Círculo dourado de fundo
+                const circleRadius = size * 0.4;
+                const centerX = size / 2;
+                const centerY = size / 2;
+
+                // Gradiente para o círculo
+                const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, circleRadius);
+                gradient.addColorStop(0, '#D4AF37');
+                gradient.addColorStop(1, '#B8860B');
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, circleRadius, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // Borda dourada
+                ctx.strokeStyle = '#B8860B';
+                ctx.lineWidth = size * 0.02;
+                ctx.stroke();
+
+                // Texto "JP"
+                ctx.fillStyle = '#000000';
+                ctx.font = `bold ${size * 0.35}px Arial, sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('JP', centerX, centerY);
+
+                // Container do ícone
+                const iconDiv = document.createElement('div');
+                iconDiv.className = 'icon-preview';
+                
+                iconDiv.innerHTML = `
+                    ${canvas.outerHTML}
+                    <div><strong>${name}</strong></div>
+                    <button onclick="downloadIcon(${size})">📥 Baixar</button>
+                `;
+
+                container.appendChild(iconDiv);
+            });
+        }
+
+        function downloadIcon(size) {
+            const canvas = document.querySelector(`canvas[width="${size}"]`);
+            if (!canvas) return;
+
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function downloadAllIcons() {
+            sizes.forEach(({ size }) => {
+                setTimeout(() => downloadIcon(size), size * 2);
+            });
+        }
+
+        // Gerar ícones automaticamente ao carregar a página
+        window.onload = function() {
+            generateIcons();
+        };
+    </script>
+</body>
+</html>

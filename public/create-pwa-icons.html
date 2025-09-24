@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerar Ícones PWA</title>
+    <style>
+        body { background: #000; color: #B8860B; font-family: Arial; padding: 20px; }
+        canvas { border: 2px solid #B8860B; margin: 10px; }
+        button { background: #B8860B; color: white; border: none; padding: 10px 20px; margin: 5px; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Gerar Ícones PWA - JP Traslados</h1>
+    <button onclick="generateAll()">Gerar Todos os Ícones</button>
+    <div id="icons"></div>
+
+    <script>
+        function createIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Fundo preto
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Círculo dourado
+            const radius = size * 0.4;
+            const center = size / 2;
+            
+            ctx.fillStyle = '#B8860B';
+            ctx.beginPath();
+            ctx.arc(center, center, radius, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Texto JP
+            ctx.fillStyle = '#000000';
+            ctx.font = `bold ${size * 0.35}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('JP', center, center);
+            
+            return canvas;
+        }
+
+        function generateAll() {
+            const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+            const container = document.getElementById('icons');
+            container.innerHTML = '';
+
+            sizes.forEach(size => {
+                const canvas = createIcon(size);
+                const div = document.createElement('div');
+                div.style.display = 'inline-block';
+                div.style.margin = '10px';
+                div.style.textAlign = 'center';
+                
+                div.innerHTML = `
+                    <div>${size}x${size}</div>
+                    ${canvas.outerHTML}
+                    <br><button onclick="downloadIcon(${size})">Baixar</button>
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        function downloadIcon(size) {
+            const canvas = createIcon(size);
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Gerar automaticamente
+        window.onload = generateAll;
+    </script>
+</body>
+</html>
