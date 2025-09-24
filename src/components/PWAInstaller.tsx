@@ -15,8 +15,31 @@ export default function PWAInstaller() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [showInstallButton, setShowInstallButton] = useState(false)
   const [showManualButton, setShowManualButton] = useState(false)
+  const [isInstalled, setIsInstalled] = useState(false)
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false)
+  const [showShareOnly, setShowShareOnly] = useState(false)
 
   useEffect(() => {
+    // Verificar se o app já foi instalado
+    const checkIfInstalled = () => {
+      // Verificar se está rodando como PWA
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        setIsInstalled(true)
+        setShowShareOnly(true)
+        return true
+      }
+      
+      // Verificar se foi instalado anteriormente (localStorage)
+      const wasInstalled = localStorage.getItem('pwa-installed')
+      if (wasInstalled === 'true') {
+        setIsInstalled(true)
+        setShowShareOnly(true)
+        return true
+      }
+      
+      return false
+    }
+
     // Registrar Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
@@ -35,28 +58,42 @@ export default function PWAInstaller() {
       setShowInstallButton(true)
     }
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-
     // Detectar se já foi instalado
-    window.addEventListener('appinstalled', () => {
+    const handleAppInstalled = () => {
       console.log('PWA foi instalado')
+      setIsInstalled(true)
       setShowInstallButton(false)
       setShowManualButton(false)
       setDeferredPrompt(null)
-    })
+      localStorage.setItem('pwa-installed', 'true')
+      setIsNotificationVisible(false)
+    }
 
-    // Mostrar botão manual após 3 segundos se não houver prompt automático
-    const timer = setTimeout(() => {
-      if (!showInstallButton) {
-        setShowManualButton(true)
-      }
-    }, 3000)
+    // Verificar se já foi instalado
+    const alreadyInstalled = checkIfInstalled()
+    
+    if (!alreadyInstalled) {
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+      window.addEventListener('appinstalled', handleAppInstalled)
+
+      // Mostrar notificação após 2 segundos se não houver prompt automático
+      const timer = setTimeout(() => {
+        if (!showInstallButton && !isInstalled) {
+          setShowManualButton(true)
+          setIsNotificationVisible(true)
+        }
+      }, 2000)
+    } else {
+      // Se já instalado, mostrar apenas compartilhar
+      setShowShareOnly(true)
+      setIsNotificationVisible(true)
+    }
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-      clearTimeout(timer)
+      window.removeEventListener('appinstalled', handleAppInstalled)
     }
-  }, [])
+  }, [showInstallButton, isInstalled])
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
@@ -112,53 +149,156 @@ export default function PWAInstaller() {
     }
   }
 
-  if (!showInstallButton && !showManualButton) return null
+  const handleCloseNotification = () => {
+    setIsNotificationVisible(false)
+  }
+
+  if (!isNotificationVisible) return null
 
   return (
     <div style={{
       position: 'fixed',
-      bottom: '20px',
-      right: '20px',
+      top: '20px',
+      left: '50%',
+      transform: 'translateX(-50%)',
       zIndex: 1000,
-      display: 'flex',
-      gap: '10px'
+      background: 'rgba(0, 0, 0, 0.95)',
+      border: '1px solid #B8860B',
+      borderRadius: '12px',
+      padding: '16px',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+      backdropFilter: 'blur(10px)',
+      maxWidth: '320px',
+      width: '90%',
+      animation: 'slideDown 0.3s ease-out'
     }}>
-      {/* Botão de Compartilhar */}
-      <div
+      {/* Botão de Fechar */}
+      <button
+        onClick={handleCloseNotification}
         style={{
-          background: '#2a2a2a',
-          color: 'white',
-          padding: '12px 16px',
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          position: 'absolute',
+          top: '8px',
+          right: '8px',
+          background: 'none',
+          border: 'none',
+          color: '#B8860B',
+          fontSize: '18px',
           cursor: 'pointer',
-          fontSize: '14px',
-          fontWeight: '500',
-          textAlign: 'center',
-          border: '1px solid #B8860B'
+          width: '24px',
+          height: '24px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '50%',
+          transition: 'background 0.2s'
         }}
-        onClick={handleShareClick}
-      >
-        Compartilhar
-      </div>
-      
-      {/* Botão de Instalar */}
-      <div
-        style={{
-          background: '#B8860B',
-          color: 'white',
-          padding: '12px 16px',
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          cursor: 'pointer',
-          fontSize: '14px',
-          fontWeight: '500',
-          textAlign: 'center'
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(184, 134, 11, 0.2)'
         }}
-        onClick={handleInstallClick}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'none'
+        }}
       >
-        Instalar
+        ×
+      </button>
+
+      {/* Conteúdo da Notificação */}
+      <div style={{
+        textAlign: 'center',
+        marginBottom: '12px'
+      }}>
+        <h3 style={{
+          color: '#B8860B',
+          fontSize: '16px',
+          fontWeight: '600',
+          margin: '0 0 8px 0'
+        }}>
+          {showShareOnly ? 'Compartilhe o Cartão Digital' : 'Instale o Cartão Digital'}
+        </h3>
+        <p style={{
+          color: '#ccc',
+          fontSize: '14px',
+          margin: '0',
+          lineHeight: '1.4'
+        }}>
+          {showShareOnly 
+            ? 'Compartilhe com seus contatos' 
+            : 'Instale para acesso rápido na tela inicial'
+          }
+        </p>
       </div>
+
+      {/* Botões de Ação */}
+      <div style={{
+        display: 'flex',
+        gap: '8px',
+        justifyContent: 'center'
+      }}>
+        {/* Botão de Compartilhar - sempre visível */}
+        <button
+          onClick={handleShareClick}
+          style={{
+            background: '#2a2a2a',
+            color: 'white',
+            border: '1px solid #B8860B',
+            padding: '10px 16px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            flex: '1'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#B8860B'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = '#2a2a2a'
+          }}
+        >
+          Compartilhar
+        </button>
+        
+        {/* Botão de Instalar - apenas se não estiver instalado */}
+        {!showShareOnly && (showInstallButton || showManualButton) && (
+          <button
+            onClick={handleInstallClick}
+            style={{
+              background: '#B8860B',
+              color: 'white',
+              border: 'none',
+              padding: '10px 16px',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              flex: '1'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#D4AF37'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#B8860B'
+            }}
+          >
+            Instalar
+          </button>
+        )}
+      </div>
+
+      <style jsx>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+        }
+      `}</style>
     </div>
   )
 }
