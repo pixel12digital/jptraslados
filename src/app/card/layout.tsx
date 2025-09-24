@@ -15,15 +15,15 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'JP Traslados - Cartão Digital',
-    description: 'Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados.',
-    url: '/card',
+    description: 'Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados. Transporte executivo seguro e confortável em São Paulo.',
+    url: 'https://jptraslados.com.br/card',
     siteName: 'JP Traslados',
     images: [
       {
-        url: '/images/logo.png',
-        width: 512,
-        height: 512,
-        alt: 'JP Traslados Logo',
+        url: '/images/share-card.png',
+        width: 1200,
+        height: 630,
+        alt: 'JP Traslados - Cartão Digital',
       },
     ],
     locale: 'pt_BR',
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'JP Traslados - Cartão Digital',
-    description: 'Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados.',
-    images: ['/images/logo.png'],
+    description: 'Acesso rápido ao WhatsApp, telefone e serviços da JP Traslados. Transporte executivo seguro e confortável em São Paulo.',
+    images: ['/images/share-card.png'],
   },
 }
 

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Imagem de Compartilhamento - JP Traslados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .preview {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #B8860B;
+        }
+        .share-canvas {
+            border: 2px solid #B8860B;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #B8860B;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #D4AF37;
+        }
+        h1 {
+            color: #B8860B;
+            text-align: center;
+        }
+        .instructions {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #B8860B;
+            margin-bottom: 30px;
+        }
+        .specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .spec-item {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #B8860B;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Gerador de Imagem de Compartilhamento</h1>
+        <h2 style="text-align: center; color: #B8860B;">JP Traslados - Cartão Digital</h2>
+        
+        <div class="instructions">
+            <h3>📋 Instruções:</h3>
+            <ol>
+                <li>Clique em "Gerar Imagem" para criar a imagem de compartilhamento</li>
+                <li>Baixe a imagem gerada</li>
+                <li>Salve como <code>share-card.png</code> na pasta <code>public/images/</code></li>
+                <li>A imagem será usada ao compartilhar o cartão digital</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button onclick="generateShareImage()">🎨 Gerar Imagem de Compartilhamento</button>
+            <button onclick="downloadShareImage()">📥 Baixar Imagem</button>
+        </div>
+
+        <div id="preview-container"></div>
+
+        <div class="specs">
+            <div class="spec-item">
+                <h4>📐 Dimensões</h4>
+                <p>1200x630 pixels</p>
+                <p>Proporção 1.91:1</p>
+            </div>
+            <div class="spec-item">
+                <h4>🎨 Design</h4>
+                <p>Fundo preto sólido</p>
+                <p>Logo dourado centralizado</p>
+                <p>Texto em branco</p>
+            </div>
+            <div class="spec-item">
+                <h4>📱 Compatibilidade</h4>
+                <p>WhatsApp</p>
+                <p>Instagram</p>
+                <p>Facebook</p>
+                <p>Twitter</p>
+            </div>
+            <div class="spec-item">
+                <h4>💾 Formato</h4>
+                <p>PNG com transparência</p>
+                <p>Otimizado para web</p>
+                <p>Alta qualidade</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateShareImage() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1200;
+            canvas.height = 630;
+            canvas.className = 'share-canvas';
+
+            const ctx = canvas.getContext('2d');
+
+            // Fundo preto
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Círculo dourado de fundo para o logo
+            const logoSize = 200;
+            const logoX = 600;
+            const logoY = 315;
+            const logoRadius = logoSize / 2;
+
+            // Gradiente para o círculo
+            const gradient = ctx.createRadialGradient(logoX, logoY, 0, logoX, logoY, logoRadius);
+            gradient.addColorStop(0, '#D4AF37');
+            gradient.addColorStop(1, '#B8860B');
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(logoX, logoY, logoRadius, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Borda dourada
+            ctx.strokeStyle = '#B8860B';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Texto "JP" no círculo
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 80px Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('JP', logoX, logoY);
+
+            // Título principal
+            ctx.fillStyle = '#B8860B';
+            ctx.font = 'bold 48px Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('JP TRASLADOS', logoX, logoY + 180);
+
+            // Subtítulo
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '28px Arial, sans-serif';
+            ctx.fillText('Cartão Digital', logoX, logoY + 220);
+
+            // Descrição
+            ctx.fillStyle = '#CCCCCC';
+            ctx.font = '24px Arial, sans-serif';
+            ctx.fillText('Transporte Executivo em São Paulo', logoX, logoY + 260);
+
+            // Container da preview
+            const container = document.getElementById('preview-container');
+            container.innerHTML = '';
+
+            const previewDiv = document.createElement('div');
+            previewDiv.className = 'preview';
+            previewDiv.innerHTML = `
+                <h3>Preview da Imagem de Compartilhamento</h3>
+                ${canvas.outerHTML}
+                <div><strong>1200x630 pixels</strong></div>
+                <div style="color: #B8860B; margin-top: 10px;">
+                    ✅ Fundo preto sólido<br>
+                    ✅ Logo dourado centralizado<br>
+                    ✅ Texto legível<br>
+                    ✅ Sem cortes
+                </div>
+            `;
+
+            container.appendChild(previewDiv);
+        }
+
+        function downloadShareImage() {
+            const canvas = document.querySelector('.share-canvas');
+            if (!canvas) {
+                alert('Primeiro gere a imagem clicando em "Gerar Imagem"');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.download = 'share-card.png';
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+        }
+
+        // Gerar automaticamente ao carregar a página
+        window.onload = function() {
+            generateShareImage();
+        };
+    </script>
+</body>
+</html>
