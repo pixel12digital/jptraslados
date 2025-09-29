@@ -54,7 +54,7 @@ export default function PWAInstaller() {
               newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                   // Nova versão disponível
-                  showUpdateNotification()
+                  handleShowUpdateNotification()
                 }
               })
             }
@@ -167,7 +167,7 @@ export default function PWAInstaller() {
     setIsNotificationVisible(false)
   }
 
-  const showUpdateNotification = () => {
+  const handleShowUpdateNotification = () => {
     setShowUpdateNotification(true)
   }
 
