@@ -11,7 +11,7 @@ export default function CardPage() {
   const telefoneUrl = "tel:+5511965221349"
   const siteUrl = "https://www.jptraslados.com.br/?utm_source=linkinbio&utm_medium=site&utm_campaign=jptraslados"
   const instagramUrl = "https://instagram.com/jp_traslados/"
-  const linkedinUrl = "#" // Adicionar quando disponível
+  const linkedinUrl = "https://www.linkedin.com/in/jptraslados?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
 
   // Array de carros para fundo dinâmico
   const carImages = ['virtus.png', 'corolla.png', 'civic.png', 'corolla-cross.png']
