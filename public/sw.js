@@ -1,5 +1,5 @@
 // Service Worker para JP Traslados Card PWA
-const CACHE_NAME = 'jp-card-v2';
+const CACHE_NAME = 'jp-card-v3';
 const urlsToCache = [
   '/card',
   '/images/logo.png',
@@ -20,6 +20,8 @@ self.addEventListener('install', (event) => {
         return cache.addAll(urlsToCache);
       })
   );
+  // Força a ativação imediata do novo service worker
+  self.skipWaiting();
 });
 
 // Fetch event - serve from cache when offline
@@ -49,6 +51,9 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
+    }).then(() => {
+      // Força o controle imediato de todas as abas
+      return self.clients.claim();
     })
   );
 });
