@@ -18,6 +18,7 @@ export default function PWAInstaller() {
   const [isInstalled, setIsInstalled] = useState(false)
   const [isNotificationVisible, setIsNotificationVisible] = useState(false)
   const [showShareOnly, setShowShareOnly] = useState(false)
+  const [showUpdateNotification, setShowUpdateNotification] = useState(false)
 
   useEffect(() => {
     // Verificar se o app já foi instalado
@@ -45,6 +46,19 @@ export default function PWAInstaller() {
       navigator.serviceWorker.register('/sw.js')
         .then((registration) => {
           console.log('SW registrado: ', registration)
+          
+          // Verificar atualizações
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // Nova versão disponível
+                  showUpdateNotification()
+                }
+              })
+            }
+          })
         })
         .catch((registrationError) => {
           console.log('SW falhou: ', registrationError)
@@ -153,139 +167,267 @@ export default function PWAInstaller() {
     setIsNotificationVisible(false)
   }
 
-  if (!isNotificationVisible) return null
+  const showUpdateNotification = () => {
+    setShowUpdateNotification(true)
+  }
+
+  const handleUpdateApp = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then((registration) => {
+        if (registration && registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' })
+          window.location.reload()
+        }
+      })
+    }
+  }
+
+  const handleCloseUpdateNotification = () => {
+    setShowUpdateNotification(false)
+  }
+
+  if (!isNotificationVisible && !showUpdateNotification) return null
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: '20px',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      zIndex: 1000,
-      background: 'rgba(0, 0, 0, 0.95)',
-      border: '1px solid #B8860B',
-      borderRadius: '12px',
-      padding: '16px',
-      boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-      backdropFilter: 'blur(10px)',
-      maxWidth: '320px',
-      width: '90%',
-      animation: 'slideDown 0.3s ease-out'
-    }}>
-      {/* Botão de Fechar */}
-      <button
-        onClick={handleCloseNotification}
-        style={{
-          position: 'absolute',
-          top: '8px',
-          right: '8px',
-          background: 'none',
-          border: 'none',
-          color: '#B8860B',
-          fontSize: '18px',
-          cursor: 'pointer',
-          width: '24px',
-          height: '24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: '50%',
-          transition: 'background 0.2s'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = 'rgba(184, 134, 11, 0.2)'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'none'
-        }}
-      >
-        ×
-      </button>
-
-      {/* Conteúdo da Notificação */}
-      <div style={{
-        textAlign: 'center',
-        marginBottom: '12px'
-      }}>
-        <h3 style={{
-          color: '#B8860B',
-          fontSize: '16px',
-          fontWeight: '600',
-          margin: '0 0 8px 0'
+    <>
+      {/* Notificação de Atualização */}
+      {showUpdateNotification && (
+        <div style={{
+          position: 'fixed',
+          top: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1001,
+          background: 'rgba(0, 0, 0, 0.95)',
+          border: '2px solid #4CAF50',
+          borderRadius: '12px',
+          padding: '16px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          backdropFilter: 'blur(10px)',
+          maxWidth: '320px',
+          width: '90%',
+          animation: 'slideDown 0.3s ease-out'
         }}>
-          {showShareOnly ? 'Compartilhe o Cartão Digital' : 'Instale o Cartão Digital'}
-        </h3>
-        <p style={{
-          color: '#ccc',
-          fontSize: '14px',
-          margin: '0',
-          lineHeight: '1.4'
-        }}>
-          {showShareOnly 
-            ? 'Compartilhe com seus contatos' 
-            : 'Instale para acesso rápido na tela inicial'
-          }
-        </p>
-      </div>
-
-      {/* Botões de Ação */}
-      <div style={{
-        display: 'flex',
-        gap: '8px',
-        justifyContent: 'center'
-      }}>
-        {/* Botão de Compartilhar - sempre visível */}
-        <button
-          onClick={handleShareClick}
-          style={{
-            background: '#2a2a2a',
-            color: 'white',
-            border: '1px solid #B8860B',
-            padding: '10px 16px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            fontWeight: '500',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-            flex: '1'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#B8860B'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#2a2a2a'
-          }}
-        >
-          Compartilhar
-        </button>
-        
-        {/* Botão de Instalar - apenas se não estiver instalado */}
-        {!showShareOnly && (showInstallButton || showManualButton) && (
+          {/* Botão de Fechar */}
           <button
-            onClick={handleInstallClick}
+            onClick={handleCloseUpdateNotification}
             style={{
-              background: '#B8860B',
-              color: 'white',
+              position: 'absolute',
+              top: '8px',
+              right: '8px',
+              background: 'none',
               border: 'none',
-              padding: '10px 16px',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '500',
+              color: '#4CAF50',
+              fontSize: '18px',
               cursor: 'pointer',
-              transition: 'all 0.2s',
-              flex: '1'
+              width: '24px',
+              height: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              transition: 'background 0.2s'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#D4AF37'
+              e.currentTarget.style.background = 'rgba(76, 175, 80, 0.2)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#B8860B'
+              e.currentTarget.style.background = 'none'
             }}
           >
-            Instalar
+            ×
           </button>
-        )}
-      </div>
+
+          {/* Conteúdo da Notificação de Atualização */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '12px'
+          }}>
+            <h3 style={{
+              color: '#4CAF50',
+              fontSize: '16px',
+              fontWeight: '600',
+              margin: '0 0 8px 0'
+            }}>
+              🔄 Nova Versão Disponível
+            </h3>
+            <p style={{
+              color: '#ccc',
+              fontSize: '14px',
+              margin: '0',
+              lineHeight: '1.4'
+            }}>
+              Uma nova versão do app está disponível com melhorias e correções.
+            </p>
+          </div>
+
+          {/* Botões de Ação */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            justifyContent: 'center'
+          }}>
+            <button
+              onClick={handleUpdateApp}
+              style={{
+                background: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                padding: '10px 16px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                flex: '1'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#45a049'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#4CAF50'
+              }}
+            >
+              Atualizar Agora
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Notificação de Instalação/Compartilhamento */}
+      {isNotificationVisible && (
+        <div style={{
+          position: 'fixed',
+          top: showUpdateNotification ? '120px' : '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+          background: 'rgba(0, 0, 0, 0.95)',
+          border: '1px solid #B8860B',
+          borderRadius: '12px',
+          padding: '16px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
+          backdropFilter: 'blur(10px)',
+          maxWidth: '320px',
+          width: '90%',
+          animation: 'slideDown 0.3s ease-out'
+        }}>
+          {/* Botão de Fechar */}
+          <button
+            onClick={handleCloseNotification}
+            style={{
+              position: 'absolute',
+              top: '8px',
+              right: '8px',
+              background: 'none',
+              border: 'none',
+              color: '#B8860B',
+              fontSize: '18px',
+              cursor: 'pointer',
+              width: '24px',
+              height: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              transition: 'background 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(184, 134, 11, 0.2)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'none'
+            }}
+          >
+            ×
+          </button>
+
+          {/* Conteúdo da Notificação */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '12px'
+          }}>
+            <h3 style={{
+              color: '#B8860B',
+              fontSize: '16px',
+              fontWeight: '600',
+              margin: '0 0 8px 0'
+            }}>
+              {showShareOnly ? 'Compartilhe o Cartão Digital' : 'Instale o Cartão Digital'}
+            </h3>
+            <p style={{
+              color: '#ccc',
+              fontSize: '14px',
+              margin: '0',
+              lineHeight: '1.4'
+            }}>
+              {showShareOnly 
+                ? 'Compartilhe com seus contatos' 
+                : 'Instale para acesso rápido na tela inicial'
+              }
+            </p>
+          </div>
+
+          {/* Botões de Ação */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            justifyContent: 'center'
+          }}>
+            {/* Botão de Compartilhar - sempre visível */}
+            <button
+              onClick={handleShareClick}
+              style={{
+                background: '#2a2a2a',
+                color: 'white',
+                border: '1px solid #B8860B',
+                padding: '10px 16px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                flex: '1'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#B8860B'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#2a2a2a'
+              }}
+            >
+              Compartilhar
+            </button>
+            
+            {/* Botão de Instalar - apenas se não estiver instalado */}
+            {!showShareOnly && (showInstallButton || showManualButton) && (
+              <button
+                onClick={handleInstallClick}
+                style={{
+                  background: '#B8860B',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 16px',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  flex: '1'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#D4AF37'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#B8860B'
+                }}
+              >
+                Instalar
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes slideDown {
@@ -299,6 +441,6 @@ export default function PWAInstaller() {
           }
         }
       `}</style>
-    </div>
+    </>
   )
 }
