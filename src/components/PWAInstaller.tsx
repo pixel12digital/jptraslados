@@ -19,6 +19,7 @@ export default function PWAInstaller() {
   const [isNotificationVisible, setIsNotificationVisible] = useState(false)
   const [showShareOnly, setShowShareOnly] = useState(false)
   const [showUpdateNotification, setShowUpdateNotification] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   useEffect(() => {
     // Verificar se o app já foi instalado
@@ -59,6 +60,11 @@ export default function PWAInstaller() {
               })
             }
           })
+
+          // Verificar se já existe uma atualização esperando
+          if (registration.waiting) {
+            handleShowUpdateNotification()
+          }
         })
         .catch((registrationError) => {
           console.log('SW falhou: ', registrationError)
@@ -172,11 +178,15 @@ export default function PWAInstaller() {
   }
 
   const handleUpdateApp = () => {
+    setIsUpdating(true)
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistration().then((registration) => {
         if (registration && registration.waiting) {
           registration.waiting.postMessage({ type: 'SKIP_WAITING' })
-          window.location.reload()
+          // Recarregar após um pequeno delay para garantir que a atualização seja aplicada
+          setTimeout(() => {
+            window.location.reload()
+          }, 100)
         }
       })
     }
@@ -186,12 +196,61 @@ export default function PWAInstaller() {
     setShowUpdateNotification(false)
   }
 
-  if (!isNotificationVisible && !showUpdateNotification) return null
+  if (!isNotificationVisible && !showUpdateNotification && !isUpdating) return null
 
   return (
     <>
+      {/* Tela de Loading durante Atualização */}
+      {isUpdating && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(0, 0, 0, 0.9)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          color: 'white'
+        }}>
+          <div style={{
+            textAlign: 'center',
+            padding: '20px'
+          }}>
+            <div style={{
+              width: '50px',
+              height: '50px',
+              border: '4px solid #4CAF50',
+              borderTop: '4px solid transparent',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+              margin: '0 auto 20px'
+            }}></div>
+            <h3 style={{
+              color: '#4CAF50',
+              fontSize: '18px',
+              fontWeight: '600',
+              margin: '0 0 10px 0'
+            }}>
+              Atualizando App...
+            </h3>
+            <p style={{
+              color: '#ccc',
+              fontSize: '14px',
+              margin: '0',
+              lineHeight: '1.4'
+            }}>
+              Aguarde enquanto aplicamos as melhorias
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Notificação de Atualização */}
-      {showUpdateNotification && (
+      {showUpdateNotification && !isUpdating && (
         <div style={{
           position: 'fixed',
           top: '20px',
@@ -249,7 +308,7 @@ export default function PWAInstaller() {
               fontWeight: '600',
               margin: '0 0 8px 0'
             }}>
-              🔄 Nova Versão Disponível
+              🔄 Atualização Disponível
             </h3>
             <p style={{
               color: '#ccc',
@@ -257,7 +316,7 @@ export default function PWAInstaller() {
               margin: '0',
               lineHeight: '1.4'
             }}>
-              Uma nova versão do app está disponível com melhorias e correções.
+              Uma nova versão está disponível com melhorias e correções. Clique em "Atualizar Agora" para aplicar.
             </p>
           </div>
 
@@ -269,26 +328,32 @@ export default function PWAInstaller() {
           }}>
             <button
               onClick={handleUpdateApp}
+              disabled={isUpdating}
               style={{
-                background: '#4CAF50',
+                background: isUpdating ? '#666' : '#4CAF50',
                 color: 'white',
                 border: 'none',
                 padding: '10px 16px',
                 borderRadius: '8px',
                 fontSize: '14px',
                 fontWeight: '500',
-                cursor: 'pointer',
+                cursor: isUpdating ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s',
-                flex: '1'
+                flex: '1',
+                opacity: isUpdating ? 0.7 : 1
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#45a049'
+                if (!isUpdating) {
+                  e.currentTarget.style.background = '#45a049'
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#4CAF50'
+                if (!isUpdating) {
+                  e.currentTarget.style.background = '#4CAF50'
+                }
               }}
             >
-              Atualizar Agora
+              {isUpdating ? 'Atualizando...' : 'Atualizar Agora'}
             </button>
           </div>
         </div>
@@ -439,6 +504,10 @@ export default function PWAInstaller() {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
           }
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
       `}</style>
     </>
