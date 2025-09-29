@@ -1,5 +1,5 @@
 // Service Worker para JP Traslados Card PWA
-const CACHE_NAME = 'jp-card-v4';
+const CACHE_NAME = 'jp-card-v5';
 const urlsToCache = [
   '/card',
   '/images/logo.png',
@@ -17,7 +17,11 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Cache aberto');
-        return cache.addAll(urlsToCache);
+        return cache.addAll(urlsToCache).catch((error) => {
+          console.log('Erro ao fazer cache de alguns recursos:', error);
+          // Continua mesmo se alguns recursos falharem
+          return Promise.resolve();
+        });
       })
   );
   // Força a ativação imediata do novo service worker

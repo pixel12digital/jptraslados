@@ -31,6 +31,13 @@ export default function PWAInstaller() {
         return true
       }
       
+      // Verificar se está em modo fullscreen (iOS)
+      if (window.matchMedia('(display-mode: fullscreen)').matches) {
+        setIsInstalled(true)
+        setShowShareOnly(true)
+        return true
+      }
+      
       // Verificar se foi instalado anteriormente (localStorage)
       const wasInstalled = localStorage.getItem('pwa-installed')
       if (wasInstalled === 'true') {
@@ -130,22 +137,8 @@ export default function PWAInstaller() {
       setDeferredPrompt(null)
       setShowInstallButton(false)
     } else {
-      // Instalação manual - tentar abrir prompt nativo
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'JP Traslados - Cartão Digital',
-            text: 'Acesse o cartão digital da JP Traslados',
-            url: window.location.href
-          })
-        } catch (err) {
-          // Fallback para instruções simples
-          alert('Para instalar: Android: Menu (⋮) → "Adicionar à tela inicial" | iPhone: Compartilhar → "Adicionar à Tela de Início"')
-        }
-      } else {
-        // Fallback para instruções simples
-        alert('Para instalar: Android: Menu (⋮) → "Adicionar à tela inicial" | iPhone: Compartilhar → "Adicionar à Tela de Início"')
-      }
+      // Instalação manual - mostrar instruções específicas
+      showInstallInstructions()
     }
   }
 
@@ -194,6 +187,35 @@ export default function PWAInstaller() {
 
   const handleCloseUpdateNotification = () => {
     setShowUpdateNotification(false)
+  }
+
+  const showInstallInstructions = () => {
+    const userAgent = navigator.userAgent.toLowerCase()
+    let instructions = ''
+    
+    if (userAgent.includes('android')) {
+      instructions = `📱 Para instalar no Android:
+      
+1. Toque no menu (⋮) no navegador
+2. Selecione "Adicionar à tela inicial"
+3. Toque em "Adicionar"
+4. O app aparecerá na sua tela inicial`
+    } else if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+      instructions = `📱 Para instalar no iPhone/iPad:
+      
+1. Toque no botão de compartilhar (□↗)
+2. Role para baixo e toque em "Adicionar à Tela de Início"
+3. Toque em "Adicionar"
+4. O app aparecerá na sua tela inicial`
+    } else {
+      instructions = `💻 Para instalar no computador:
+      
+1. Clique no ícone de instalação na barra de endereços
+2. Ou use o menu do navegador (⋮) → "Instalar app"
+3. Confirme a instalação`
+    }
+    
+    alert(instructions)
   }
 
   if (!isNotificationVisible && !showUpdateNotification && !isUpdating) return null
