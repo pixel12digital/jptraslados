@@ -112,7 +112,7 @@
         
         <div class="url-box">
             <strong>URL do Cartão Digital:</strong><br>
-            localhost:3001/card
+            https://www.jptraslados.com.br/card
         </div>
         
         <div class="instructions">
@@ -200,7 +200,7 @@
             
             // URL
             ctx.font = '12px monospace';
-            ctx.fillText('localhost:3001/card', canvas.width / 2, qrY + qrSize + 30);
+            ctx.fillText('https://www.jptraslados.com.br/card', canvas.width / 2, qrY + qrSize + 30);
             
             // Instrução
             ctx.font = '10px Arial';
@@ -256,7 +256,7 @@
             const modules = 30;
             
             // Padrão aleatório baseado na URL
-            const url = 'localhost:3001/card';
+            const url = 'https://www.jptraslados.com.br/card';
             for (let x = 0; x < modules; x++) {
                 for (let y = 0; y < modules; y++) {
                     const hash = (url.charCodeAt((x + y) % url.length) + x + y) % 3;
