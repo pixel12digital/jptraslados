@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 export default function MaintenanceMode() {
   // 🔧 SIMPLES: Mude para true para ativar manutenção, false para desativar
-  const isMaintenanceMode = true; // ← MUDAR AQUI: true = manutenção, false = site normal
+  const isMaintenanceMode = false; // ← MUDAR AQUI: true = manutenção, false = site normal
   
   useEffect(() => {
     if (isMaintenanceMode) {
